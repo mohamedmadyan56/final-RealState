@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { Loader } from "@/components/site/loader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,8 +24,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Mustafa Khaled · Cinematic Video Editing",
   description:
-    "Premium video editing for real estate media companies, agents, and creators. Cinematic quality. Consistent results. Crafted by Mustafa Khaled.",
-  keywords: [
+    "Premium video editing for real estate media companies, agents, and creators. Cinematic quality. Consistent results. Crafted by Mustafa Khaled.",  keywords: [
     "video editing",
     "real estate video",
     "cinematic editing",
@@ -63,6 +64,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
+        <SmoothScroll />
+        <Loader />
         {children}
         <Toaster />
       </body>

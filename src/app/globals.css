@@ -119,7 +119,20 @@
     @apply border-border outline-ring/50;
   }
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
   body {
     @apply bg-background text-foreground;
@@ -196,7 +209,51 @@
   animation: marquee 40s linear infinite;
 }
 
-/* Slow fade-up animation */
+/* Slow cinematic zoom for CTA video */
+@keyframes ctaZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+.cta-zoom {
+  animation: ctaZoom 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Dedicated section: watermark number swap */
+@keyframes watermarkIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.watermark-num {
+  animation: watermarkIn 0.8s ease forwards;
+}
+
+/* Active card cycling bar */
+@keyframes cycleFill {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+.cycle-bar {
+  animation: cycleFill 2.8s linear forwards;
+}
+
+/* Mouse-follow spotlight on panel */
+.spotlight-panel {
+  position: relative;
+}
+.spotlight-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(245, 216, 150, 0.09), transparent 70%);
+  z-index: 1;
+}
+.spotlight-panel:hover::before {
+  opacity: 1;
+}
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -212,4 +269,92 @@
 }
 .animate-soft-pulse {
   animation: softPulse 2.5s ease-in-out infinite;
+}
+
+/* === Cinematic mix: lucid grain + rotating word + cliffside marquee/shine === */
+.film-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+}
+
+@keyframes rotatingWord {
+  0% { opacity: 0; transform: translateY(60%); }
+  12% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-60%); }
+}
+.rotating-word {
+  animation: rotatingWord 2.2s ease forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes scrollX {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-scroll-x {
+  animation: scrollX 30s linear infinite;
+}
+
+/* Card shine sweep on hover */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 60%;
+  height: 100%;
+  transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(245, 216, 150, 0.12), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.shine:hover::before {
+  left: 130%;
+}
+
+/* Viewfinder corners for portfolio cards */
+.viewfinder {
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.group:hover .viewfinder {
+  opacity: 1;
+}
+.viewfinder i {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(245, 216, 150, 0.9);
+  border-style: solid;
+}
+.viewfinder i:nth-child(1) { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.viewfinder i:nth-child(2) { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.viewfinder i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.viewfinder i:nth-child(4) { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+/* Intro loader */
+@keyframes loaderWord {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.loader-word {
+  animation: loaderWord 0.9s ease forwards;
+}
+@keyframes loaderBar {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+.loader-bar {
+  animation: loaderBar 1.5s ease forwards;
 }

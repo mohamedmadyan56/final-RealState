@@ -15,8 +15,8 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <About />
         <Packages />
+        <About />
         <DedicatedEditor />
         <Stats />
         <Portfolio />

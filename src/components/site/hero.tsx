@@ -1,152 +1,135 @@
 "use client";
 
-import { ArrowRight, ArrowDown } from "lucide-react";
+import { useEffect, useState } from "react";
+
+const WORDS = ["realtors", "developers", "architects", "agents"];
+
+function useTimecode() {
+  const [tc, setTc] = useState("00:00:00:00");
+  useEffect(() => {
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const el = (now - start) / 1000;
+      const f = Math.floor((el % 1) * 24);
+      const s = Math.floor(el % 60);
+      const m = Math.floor((el / 60) % 60);
+      const h = Math.floor(el / 3600);
+      const p = (n: number) => String(n).padStart(2, "0");
+      setTc(`${p(h)}:${p(m)}:${p(s)}:${p(f)}`);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return tc;
+}
 
 export function Hero() {
+  const [wi, setWi] = useState(0);
+  const tc = useTimecode();
+
+  useEffect(() => {
+    const id = setInterval(() => setWi((v) => (v + 1) % WORDS.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden grain-overlay"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black"
     >
-      {/* Background layers */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-[oklch(0.10_0.02_60)]" />
-        <div
-          className="absolute -top-1/4 left-1/2 -translate-x-1/2 h-[600px] w-[900px] rounded-full opacity-30 blur-3xl"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(245, 216, 150, 0.35), transparent 70%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 right-0 h-[400px] w-[600px] rounded-full opacity-20 blur-3xl"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(201, 160, 74, 0.4), transparent 70%)",
-          }}
-        />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
-          }}
+      {/* Video background — cliffside style */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/hero-poster.jpg"
+          src="/hero-bg.mp4"
+          className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
-
-      <div className="mx-auto w-full max-w-7xl px-6 lg:px-10 pt-32 pb-20">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-3 mb-8 rounded-full border border-border/60 bg-card/40 backdrop-blur px-4 py-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-              </span>
-              <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                Available for new projects · Cairo, Egypt
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-semibold leading-[0.95] tracking-tight text-balance">
-              <span className="block text-foreground">Your Content.</span>
-              <span className="block gold-gradient-text italic">Elevated.</span>
-            </h1>
-
-            <p className="mt-8 max-w-xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Cinematic video editing crafted for real estate media companies,
-              agents, and ambitious creators. Sharper cuts. Stronger story.
-              Consistent, premium delivery — every single time.
-            </p>
-
-            {/* CTAs */}
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <a
-                href="#contact"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-all duration-300 hover:shadow-gold-glow hover:scale-[1.02]"
-              >
-                Book A Call
-                <ArrowRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </a>
-              <a
-                href="#packages"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card/40 backdrop-blur px-7 py-3.5 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary/50 hover:bg-card"
-              >
-                Order À La Carte
-              </a>
-            </div>
-
-            {/* Sub note */}
-            <div className="mt-10 flex items-center gap-6 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              <span className="flex items-center gap-2">
-                <span className="h-px w-6 bg-primary/60" /> 2 yrs craft
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-px w-6 bg-primary/60" /> 5M+ views
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="h-px w-6 bg-primary/60" /> 30+ clients
-              </span>
-            </div>
-          </div>
-
-          {/* Right side: framed stat / quote card */}
-          <div className="lg:col-span-4 hidden lg:block">
-            <div className="relative">
-              <div className="gold-border-gradient rounded-2xl p-8 shadow-gold-glow">
-                <div className="text-xs uppercase tracking-[0.25em] text-primary mb-4">
-                  Editor&apos;s Note
-                </div>
-                <p className="font-display text-xl leading-snug text-foreground">
-                  &ldquo;Editing isn&apos;t just cutting footage. It&apos;s
-                  deciding what the viewer feels next.&rdquo;
-                </p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="h-px flex-1 bg-border" />
-                  <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                    Mustafa Khaled
-                  </span>
-                </div>
-
-                <div className="mt-8 grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="font-display text-3xl font-semibold gold-gradient-text">
-                      2 yrs
-                    </div>
-                    <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                      Craft
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-display text-3xl font-semibold gold-gradient-text">
-                      5M+
-                    </div>
-                    <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                      Views Driven
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating badge */}
-              <div className="absolute -bottom-5 -left-5 rounded-full border border-primary/40 bg-background/95 backdrop-blur px-4 py-2 text-[11px] uppercase tracking-[0.25em] text-primary animate-soft-pulse">
-                Final Cut Pro · Adobe Suite
-              </div>
-            </div>
-          </div>
+      {/* Content with readability shadow (no dark layer over video) */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-36 pb-28 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+        <p className="text-[11px] md:text-xs uppercase tracking-[0.4em] text-primary mb-8">
+          Premium Real Estate Video Editing
+        </p>
+        {/* Rotating headline — lucid idea, cliffside wording */}
+        <h1 className="font-display font-medium uppercase leading-[0.98] tracking-[-0.005em] text-white text-[30px] sm:text-5xl md:text-6xl lg:text-7xl">
+          <span className="block sm:inline">Your Content. </span>
+          <span className="relative inline-block overflow-hidden align-bottom min-w-[10ch]">
+            <span key={wi} className="rotating-word inline-block text-primary">
+              {WORDS[wi]}.
+            </span>
+          </span>
+          <span className="sr-only">
+            Your Content. Elevated. For realtors, developers, architects, and
+            agents.
+          </span>
+        </h1>
+        <p className="mt-8 text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+          Professional editing for real estate media companies and agents.
+          Cinematic quality. Consistent results.
+        </p>
+        <div className="mt-12 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 max-w-sm sm:max-w-none mx-auto">
+          <a
+            href="/contact"
+            className="relative inline-flex items-center justify-center uppercase tracking-[0.15em] rounded-sm transition-all duration-300 bg-primary text-primary-foreground hover:scale-[1.03] hover:shadow-gold-glow text-sm px-9 py-4 font-semibold"
+          >
+            Book A Call
+          </a>
+          <a
+            href="/#work"
+            className="group relative inline-flex items-center justify-center gap-2 uppercase tracking-[0.15em] rounded-sm transition-all duration-300 text-white/85 hover:text-primary text-sm px-9 py-4 font-semibold"
+          >
+            See the work
+            <svg
+              className="transition-transform group-hover:translate-x-1"
+              width="20"
+              height="10"
+              viewBox="0 0 20 10"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 5h18M14 1l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.25"
+              />
+            </svg>
+          </a>
         </div>
+      </div>
 
-        {/* Scroll cue */}
-        <div className="mt-20 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          <ArrowDown size={14} className="animate-bounce" />
-          Scroll
-        </div>
+      {/* Slate + scroll — lucid timecode + cliffside scroll */}
+      <div className="absolute bottom-10 inset-x-0 z-10 flex items-end justify-between px-6 md:px-10">
+        <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/50">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-soft-pulse" />
+          MK-01&nbsp;&nbsp;{tc}
+        </span>
+        <span className="flex flex-col items-center gap-2 text-white/50">
+          <span className="text-[10px] uppercase tracking-[0.32em]">
+            Scroll
+          </span>
+          <svg
+            className="animate-bounce"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </span>
+        <span className="hidden sm:block text-[10px] uppercase tracking-[0.3em] text-white/30">
+          24fps · 4K
+        </span>
       </div>
     </section>
   );

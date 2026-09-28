@@ -15,23 +15,23 @@ const NAV_GROUPS = [
   {
     title: "Packages",
     links: [
-      { label: "Viral Cut — $129", href: "#packages" },
-      { label: "Branding Cut — $89", href: "#packages" },
-      { label: "Cinematic Cut — $129", href: "#packages" },
-      { label: "Groovy Cut — $129", href: "#packages" },
-      { label: "Value Cut — $69", href: "#packages" },
+      { label: "Viral Cut — $279", href: "#packages" },
+      { label: "Branding Cut — $189", href: "#packages" },
+      { label: "Groovy Cut — $279", href: "#packages" },
+      { label: "Cinematic Cut — $279", href: "#packages" },
+      { label: "Value Cut — $149", href: "#packages" },
       { label: "Dedicated Editor", href: "#dedicated" },
     ],
   },
   {
     title: "Connect",
     links: [
-      { label: "Instagram", href: "#" },
+      { label: "Instagram", href: "https://www.instagram.com/kiratheunholyx" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/mustafa-khaled-2348413b5" },
+      { label: "WhatsApp", href: "https://wa.me/201096994582" },
       { label: "YouTube", href: "#" },
       { label: "TikTok", href: "#" },
       { label: "Behance", href: "#" },
-      { label: "LinkedIn", href: "#" },
-      { label: "WhatsApp", href: "#" },
     ],
   },
 ];
@@ -99,16 +99,16 @@ export function Footer() {
             </div>
             <div className="space-y-2 text-sm">
               <a
-                href="mailto:hello@mustafakhaled.com"
+                href="mailto:mostafakhaled369852@gmai.com"
                 className="block text-muted-foreground hover:text-foreground transition-colors"
               >
-                hello@mustafakhaled.com
+                mostafakhaled369852@gmai.com
               </a>
               <a
-                href="tel:+201000000000"
+                href="tel:+201096994582"
                 className="block text-muted-foreground hover:text-foreground transition-colors"
               >
-                +20 100 000 0000
+                +20 109 699 4582
               </a>
               <div className="text-muted-foreground">Cairo, Egypt</div>
             </div>
