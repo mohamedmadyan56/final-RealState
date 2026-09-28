@@ -1,10 +1,10 @@
 import { Header } from "@/components/site/header";
 import { Hero } from "@/components/site/hero";
-import { About } from "@/components/site/about";
+import { Portfolio } from "@/components/site/portfolio";
 import { Packages } from "@/components/site/packages";
+import { About } from "@/components/site/about";
 import { DedicatedEditor } from "@/components/site/dedicated-editor";
 import { Stats } from "@/components/site/stats";
-import { Portfolio } from "@/components/site/portfolio";
 import { Testimonials } from "@/components/site/testimonials";
 import { CTASection } from "@/components/site/cta";
 import { Footer } from "@/components/site/footer";
@@ -15,11 +15,11 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <Portfolio />
         <Packages />
         <About />
         <DedicatedEditor />
         <Stats />
-        <Portfolio />
         <Testimonials />
         <CTASection />
       </main>

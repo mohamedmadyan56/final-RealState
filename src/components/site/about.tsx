@@ -1,243 +1,119 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { MapPin } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/site/logo";
 
-const STATS = [
-  { value: 2, suffix: " yrs", label: "Craft" },
-  { value: 5, suffix: "M+", label: "Views driven" },
-  { value: 30, suffix: "+", label: "Happy clients" },
+const PROCESS = [
+  { num: "01", title: "Send footage", body: "Drop your files and tell me the goal — listing, launch, or brand." },
+  { num: "02", title: "Direction call", body: "We lock the style, pacing, and the reference that guides the cut." },
+  { num: "03", title: "First cut", body: "Delivered on schedule with pacing and grade already dialed in." },
+  { num: "04", title: "Review & ship", body: "Revisions until it's right, then final delivery in every format." },
 ];
 
 const JOURNEY = [
-  {
-    year: "2023",
-    title: "Started with volume",
-    body: "Quick social clips for clients who needed speed — learning pace, hooks, and retention.",
-  },
-  {
-    year: "2024",
-    title: "Found the craft",
-    body: "Cinematic color grading meets rhythm-driven pacing. Every second earns its place.",
-  },
-  {
-    year: "2026",
-    title: "Studio practice",
-    body: "Operating like a small studio: reviewed deliveries, sharp cuts, zero exceptions.",
-  },
+  { year: "2023", title: "Started with volume", body: "Quick social clips for clients who needed speed — learning pace, hooks, and retention." },
+  { year: "2024", title: "Found the craft", body: "Cinematic color grading meets rhythm-driven pacing. Every second earns its place." },
+  { year: "2026", title: "Studio practice", body: "Operating like a small studio: reviewed deliveries, sharp cuts, zero exceptions." },
 ];
 
-function useReveal<T extends HTMLElement>(threshold = 0.15) {
-  const ref = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const ob = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          ob.disconnect();
-        }
-      },
-      { threshold }
-    );
-    ob.observe(node);
-    return () => ob.disconnect();
-  }, [threshold]);
-  return { ref, visible };
-}
-
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const { ref, visible } = useReveal<HTMLDivElement>(0.4);
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    if (!visible) return;
-    const duration = 1600;
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      setDisplay(Math.floor((1 - Math.pow(1 - p, 3)) * value));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else setDisplay(value);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [visible, value]);
-  return (
-    <div ref={ref} className="font-display text-3xl font-semibold gold-gradient-text tabular-nums">
-      {display}
-      {suffix}
-    </div>
-  );
-}
-
 export function About() {
-  const { ref, visible } = useReveal<HTMLDivElement>();
-
   return (
-    <section id="about" className="relative py-28 lg:py-36 border-t border-white/[0.06] bg-black overflow-hidden">
-      <div
-        className="pointer-events-none absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full opacity-[0.06] blur-3xl"
-        aria-hidden="true"
-        style={{ background: "radial-gradient(circle, rgba(245,216,150,0.7), transparent 70%)" }}
-      />
+    <section id="about" className="relative overflow-hidden bg-[#f2ecdf] py-20 md:py-28">
+      <div className="mx-auto max-w-[1600px] px-5 md:px-10">
+        <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#ff4d00]">
+          ( 03 ) — The editor
+        </p>
+        <h2 className="mt-3 font-display uppercase leading-[0.9] text-[13vw] md:text-8xl lg:text-[10rem]">
+          Craftsman, <span className="text-outline-ink">not</span> vendor
+        </h2>
 
-      <div
-        ref={ref}
-        className={cn(
-          "mx-auto max-w-7xl px-6 lg:px-10 transition-all duration-700",
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        )}
-      >
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
-          {/* Left: sticky identity */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <div className="text-[11px] uppercase tracking-[0.35em] text-primary mb-4">
-              About The Editor
-            </div>
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.05] text-white text-balance">
-              A craftsman,{" "}
-              <span className="italic gold-gradient-text">not a vendor</span>.
-            </h2>
-
-            {/* Portrait card */}
-            <div className="shine mt-8 flex items-center gap-5 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 max-w-sm">
-              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border border-primary/40 ring-1 ring-primary/20">
-                <img src="/logo-mustafa.png" alt="Mustafa Khaled" className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <div className="font-display text-lg font-semibold text-white">Mustafa Khaled</div>
-                <div className="mt-1 flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] text-white/50">
-                  <MapPin size={12} className="text-primary" />
+        <div className="mt-12 grid gap-10 lg:grid-cols-12">
+          {/* Portrait card */}
+          <div className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <div className="tape relative max-w-xs rotate-[-3deg] rounded-xl border-2 border-[#171410] bg-[#fff8ea] p-3 pb-5 shadow-[8px_8px_0_#171410]">
+                <div className="grid aspect-square w-full place-items-center rounded-lg bg-[#171410]">
+                  <LogoMark className="h-3/5 w-3/5" />
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <span className="font-display text-xl uppercase">Mustafa Khaled</span>
+                  <span className="rounded-full bg-[#ff4d00] px-3 py-1 font-mono text-[10px] font-bold uppercase text-[#fff8ea]">
+                    ★ Editor
+                  </span>
+                </div>
+                <p className="mt-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6f6656]">
+                  <MapPin size={12} className="text-[#ff4d00]" />
                   Cairo · Working worldwide
-                </div>
+                </p>
               </div>
-            </div>
 
-            {/* Mini stats */}
-            <div className="mt-6 grid grid-cols-3 gap-px max-w-sm rounded-xl overflow-hidden border border-white/[0.07]">
-              {STATS.map((s) => (
-                <div key={s.label} className="bg-white/[0.02] p-4 text-center">
-                  <Counter value={s.value} suffix={s.suffix} />
-                  <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/45">
-                    {s.label}
+              <div className="mt-8 grid max-w-xs grid-cols-3 divide-x-2 divide-[#171410] rounded-xl border-2 border-[#171410] bg-[#fff8ea] text-center">
+                {[
+                  ["2", "yrs craft"],
+                  ["5M+", "views"],
+                  ["30+", "clients"],
+                ].map(([v, l]) => (
+                  <div key={l} className="p-4">
+                    <div className="font-display text-2xl md:text-3xl text-[#ff4d00]">{v}</div>
+                    <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6f6656]">{l}</div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Right: story */}
-          <div className="lg:col-span-7">
-            <p className="text-white/65 leading-relaxed text-base md:text-lg">
-              <span className="float-left mr-3 font-display text-6xl leading-[0.85] text-primary">
-                M
-              </span>
-              ustafa Khaled is a cinematic video editor based in Cairo, Egypt —
-              building a reputation over the past two years for cuts that feel{" "}
-              <span className="text-white">intentional, premium, and on-trend</span>.
-              He started where most editors start: cutting quick social clips
-              for clients who needed volume. What set him apart was the refusal
-              to treat any project as a checkbox.
+          {/* Story */}
+          <div className="lg:col-span-8">
+            <p className="max-w-3xl text-xl md:text-3xl font-medium leading-snug">
+              Mustafa Khaled is a cinematic video editor from Cairo building a
+              reputation for cuts that feel{" "}
+              <span className="font-accent italic text-[#ff4d00]">intentional, premium, on-trend.</span>{" "}
+              What set him apart was the refusal to treat any project as a checkbox.
             </p>
 
-            <blockquote className="my-8 border-l-2 border-primary pl-6 font-display text-xl md:text-2xl text-white leading-snug">
+            <blockquote className="mt-8 border-l-4 border-[#ff4d00] pl-6 font-accent text-2xl md:text-4xl italic leading-snug">
               “Every second of footage earns its place in the final cut.”
             </blockquote>
 
-            <p className="text-white/65 leading-relaxed">
-              Today, Mustafa works with real estate media companies, agents,
-              and ambitious brands that care about the same thing he does. His
-              style blends{" "}
-              <span className="text-white">cinematic color grading</span> with{" "}
-              <span className="text-white">rhythm-driven pacing</span> — the
-              kind of edit that holds attention past the three-second hook and
-              actually converts viewers into clients.
-            </p>
-
-            {/* Journey timeline */}
-            <div className="mt-10">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-primary mb-6">
-                The Journey
-              </div>
-              <div className="relative space-y-0 border-l border-white/10 ml-1">
-                {JOURNEY.map((j, i) => (
-                  <div key={j.year} className="group relative pl-8 pb-8 last:pb-0">
-                    <span
-                      className={cn(
-                        "absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full border transition-all duration-500",
-                        "border-primary/50 bg-black group-hover:bg-primary group-hover:shadow-gold-glow"
-                      )}
-                    />
-                    <div className="flex items-baseline gap-3">
-                      <span className="font-display text-primary/70 text-sm">{j.year}</span>
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30">
-                        0{i + 1}
-                      </span>
-                    </div>
-                    <h3 className="mt-1.5 font-display text-lg font-semibold text-white group-hover:text-primary transition-colors">
-                      {j.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-white/55 leading-relaxed max-w-xl">
-                      {j.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            {/* Journey rows */}
+            <div className="mt-12 border-t-2 border-[#171410]">
+              {JOURNEY.map((j, i) => (
+                <div key={j.year} className="group grid gap-1 border-b border-[#171410]/20 py-6 transition-colors hover:bg-[#fff8ea] md:grid-cols-12 md:items-baseline md:gap-4 px-1 md:px-3">
+                  <span className="font-display text-3xl md:text-4xl text-[#ff4d00] md:col-span-2">{j.year}</span>
+                  <h3 className="font-display text-2xl md:text-3xl uppercase md:col-span-4 transition-transform group-hover:translate-x-1">
+                    {j.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-[#171410]/65 md:col-span-6">{j.body}</p>
+                  <span className="hidden font-mono text-xs text-[#6f6656]">0{i + 1}</span>
+                </div>
+              ))}
             </div>
 
             {/* Tools */}
-            <div className="pt-8 mt-8 border-t border-white/10">
-              <div className="text-[11px] uppercase tracking-[0.3em] text-primary mb-4">
-                Tools &amp; Stack
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Final Cut Pro",
-                  "Adobe Premiere Pro",
-                  "After Effects",
-                  "DaVinci Resolve",
-                  "Color Grading",
-                  "Sound Design",
-                  "Motion Graphics",
-                  "Reels · TikTok · Shorts",
-                ].map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-xs text-white/70 transition-all duration-300 hover:border-primary/60 hover:text-primary hover:-translate-y-0.5 cursor-default"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {["Final Cut Pro", "Premiere Pro", "After Effects", "DaVinci Resolve", "Color Grading", "Sound Design", "Motion Graphics", "Reels · TikTok · Shorts"].map((s) => (
+                <span key={s} className="cursor-default rounded-full border-2 border-[#171410] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.12em] transition-all hover:-translate-y-0.5 hover:bg-[#171410] hover:text-[#f2ecdf]">
+                  {s}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Frames strip */}
-      <div className="mt-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 mb-6 flex items-center justify-between">
-          <span className="text-[11px] uppercase tracking-[0.3em] text-white/40">
-            Frames from recent cuts
-          </span>
-          <a href="/#work" className="text-[11px] uppercase tracking-[0.3em] text-primary hover:underline underline-offset-4">
-            See the work →
-          </a>
-        </div>
-        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex w-max gap-4 animate-scroll-x">
-            {[1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6].map((n, i) => (
-              <img
-                key={i}
-                src={`/work/work-${n}.jpg`}
-                alt={`Frame from recent cut ${n}`}
-                loading="lazy"
-                className="h-44 md:h-56 w-auto aspect-[4/5] object-cover rounded-lg border border-white/10 opacity-70 hover:opacity-100 hover:border-primary/50 transition-all duration-300"
-              />
+        {/* Process */}
+        <div className="mt-20">
+          <div className="flex items-center gap-5">
+            <span className="whitespace-nowrap font-display text-2xl md:text-3xl uppercase">How it works</span>
+            <span className="h-[2px] flex-1 bg-[#171410]" />
+            <span className="font-mono text-xs text-[#ff4d00]">4 steps</span>
+          </div>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {PROCESS.map((p) => (
+              <div key={p.num} className="group rounded-2xl border-2 border-[#171410] bg-[#fff8ea] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:rotate-[-0.5deg] hover:bg-[#171410] hover:text-[#f2ecdf] hover:shadow-[6px_6px_0_#ff4d00]">
+                <span className="font-display text-5xl text-[#ff4d00]">{p.num}</span>
+                <h3 className="mt-3 font-display text-2xl uppercase">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed opacity-70">{p.body}</p>
+              </div>
             ))}
           </div>
         </div>

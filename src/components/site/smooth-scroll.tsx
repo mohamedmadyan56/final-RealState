@@ -5,12 +5,17 @@ import Lenis from "lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     const lenis = new Lenis({
-      duration: 1.6,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      // lerp = inertia بدل مدة ثابتة → إحساس silky أتحف وأنعم
+      lerp: prefersReduced ? 1 : 0.085,
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.6,
+      syncTouch: true,
       autoRaf: true,
     });
 
@@ -26,7 +31,7 @@ export function SmoothScroll() {
       const el = document.querySelector(url.hash);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.8 });
+      lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.6 });
     };
     document.addEventListener("click", onClick);
 

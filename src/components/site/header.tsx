@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/site/logo";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
-  { label: "Dedicated Editor", href: "/#dedicated" },
-  { label: "Work", href: "/#work" },
-  { label: "A La Carte", href: "/#packages" },
+  { num: "01", label: "Showreel", href: "/#work" },
+  { num: "02", label: "Packages", href: "/#packages" },
+  { num: "03", label: "The Editor", href: "/#about" },
+  { num: "04", label: "Dedicated", href: "/#dedicated" },
+  { num: "05", label: "Contact", href: "/contact" },
 ];
 
 export function Header() {
@@ -23,110 +24,127 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open ]);
+
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "bg-black/70 backdrop-blur-xl border-b border-white/[0.06]"
-          : "bg-gradient-to-b from-black/50 to-transparent"
-      )}
-    >
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-        {/* Logo left */}
-        <a href="/#home" className="flex items-center gap-3 group shrink-0">
-          <div className="relative h-10 w-10 overflow-hidden rounded-full border border-primary/30 ring-1 ring-primary/20">
-            <img
-              src="/logo-mustafa.png"
-              alt="Mustafa Khaled logo"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-          </div>
-          <div className="hidden sm:flex flex-col leading-none drop-shadow-[0_1px_8px_rgba(0,0,0,0.9)]">
-            <span className="font-display text-base font-semibold tracking-wide text-white">
-              Mustafa Khaled
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.25em] text-white/70">
-              Cinematic Editor
-            </span>
-          </div>
-        </a>
-
-        {/* Center links — cliffside style */}
-        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="group relative text-[12px] font-medium uppercase tracking-[0.22em] text-white/85 transition-colors hover:text-white py-1"
-            >
-              {link.label}
-              <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-primary transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
-        </nav>
-
-        {/* Right buttons — ORDER outline + LOG IN solid */}
-        <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <a
-            href="/#packages"
-            className="rounded-[3px] border border-white/30 px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.18em] text-white transition-all duration-300 hover:border-primary hover:text-primary"
-          >
-            Order Now
-          </a>
-          <a
-            href="/contact"
-            className="rounded-[3px] bg-primary px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-all duration-300 hover:shadow-gold-glow hover:scale-[1.03]"
-          >
-            Log In
-          </a>
-        </div>
-
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 text-white"
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      <div
+    <>
+      <header
         className={cn(
-          "lg:hidden overflow-hidden transition-all duration-300",
-          open ? "max-h-[480px] bg-black/90 backdrop-blur-xl border-t border-white/10" : "max-h-0"
+          "fixed inset-x-0 top-0 z-[60] transition-all duration-500",
+          scrolled
+            ? "bg-[#f2ecdf]/85 backdrop-blur-xl border-b-2 border-[#171410]"
+            : "bg-transparent border-b-2 border-transparent"
         )}
       >
-        <nav className="flex flex-col gap-1 px-6 py-4">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="py-2 text-[13px] uppercase tracking-[0.2em] text-white/80 hover:text-primary"
-            >
-              {link.label}
-            </a>
-          ))}
-          <div className="mt-3 flex gap-3">
-            <a
-              href="/#packages"
-              onClick={() => setOpen(false)}
-              className="flex-1 rounded-[3px] border border-white/30 px-5 py-2.5 text-center text-[12px] uppercase tracking-[0.18em] text-white"
-            >
-              Order Now
-            </a>
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 md:px-10 py-4">
+          {/* Brand */}
+          <a href="/#home" className="flex items-center gap-3 shrink-0">
+            <LogoMark className="h-10 w-10 transition-transform duration-500 hover:rotate-[-8deg] hover:scale-105" />
+            <span className="hidden sm:block leading-none">
+              <span className="block font-display text-lg tracking-wide">
+                MUSTAFA KHALED
+              </span>
+              <span className="block text-[10px] uppercase tracking-[0.3em] text-[#6f6656]">
+                Cuts that convert
+              </span>
+            </span>
+          </a>
+
+          {/* Desktop quick links */}
+          <nav className="hidden lg:flex items-center gap-7">
+            {NAV_LINKS.slice(0, 4).map((l) => (
+              <a
+                key={l.href + l.label}
+                href={l.href}
+                className="text-[12px] font-semibold uppercase tracking-[0.2em] hover:text-[#ff4d00] transition-colors"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
             <a
               href="/contact"
-              onClick={() => setOpen(false)}
-              className="flex-1 rounded-[3px] bg-primary px-5 py-2.5 text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-primary-foreground"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#ff4d00] px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] text-[#fff8ea] transition-transform duration-300 hover:scale-105 hover:-rotate-1"
             >
-              Log In
+              Book a call
+              <ArrowUpRight size={15} strokeWidth={2.5} />
             </a>
+            {/* Burger */}
+            <button
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="group flex items-center gap-2 rounded-full border-2 border-[#171410] bg-[#f2ecdf] px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-[#171410] hover:text-[#f2ecdf]"
+            >
+              Menu
+              <span className="flex flex-col gap-[4px]">
+                <span className="h-[2px] w-5 bg-current transition-all group-hover:w-3" />
+                <span className="h-[2px] w-5 bg-current" />
+                <span className="h-[2px] w-3 bg-current transition-all group-hover:w-5" />
+              </span>
+            </button>
           </div>
+        </div>
+      </header>
+
+      {/* Fullscreen overlay menu */}
+      <div
+        className={cn(
+          "fixed inset-0 z-[80] flex flex-col bg-[#171410] text-[#f2ecdf] transition-all duration-500",
+          open ? "opacity-100 visible" : "opacity-0 invisible"
+        )}
+        aria-hidden={!open}
+      >
+        <div className="film-grain" />
+        <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between px-5 md:px-10 py-4">
+          <span className="font-display text-lg tracking-wide">MK — MENU</span>
+          <button
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+            className="rounded-full border-2 border-[#f2ecdf] px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-[#ff4d00] hover:border-[#ff4d00]"
+          >
+            Close ✕
+          </button>
+        </div>
+
+        <nav className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center px-5 md:px-10">
+          {NAV_LINKS.map((l, i) => (
+            <a
+              key={l.label}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              style={{ transitionDelay: open ? `${i * 60}ms` : "0ms" }}
+              className={cn(
+                "group flex items-baseline gap-4 border-b border-[#f2ecdf]/15 py-2 md:py-3 transition-all duration-500 hover:pl-4",
+                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+            >
+              <span className="font-mono text-sm text-[#ff4d00]">{l.num}</span>
+              <span className="font-display uppercase leading-none text-[13vw] sm:text-6xl md:text-7xl lg:text-8xl transition-colors group-hover:text-[#ff4d00]">
+                {l.label}
+              </span>
+              <ArrowUpRight
+                className="ml-auto hidden md:block text-[#ff4d00] opacity-0 -translate-x-3 translate-y-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
+                size={40}
+              />
+            </a>
+          ))}
         </nav>
+
+        <div className="relative mx-auto flex w-full max-w-[1600px] flex-col sm:flex-row gap-2 sm:items-center justify-between px-5 md:px-10 pb-8 text-[11px] uppercase tracking-[0.25em] text-[#f2ecdf]/60">
+          <span>Cairo → Worldwide</span>
+          <span className="text-[#ff4d00]">● Available for new projects</span>
+          <a href="mailto:mostafakhaled369852@gmai.com" className="hover:text-[#f2ecdf]">
+            mostafakhaled369852@gmai.com
+          </a>
+        </div>
       </div>
-    </header>
+    </>
   );
 }

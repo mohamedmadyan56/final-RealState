@@ -1,34 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
 
 export function CTASection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const ob = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          ob.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    ob.observe(node);
-    return () => ob.disconnect();
-  }, []);
-
   return (
-    <section
-      id="contact"
-      className="relative overflow-hidden border-t border-white/[0.06] min-h-[80vh] flex items-center"
-    >
-      {/* Video background */}
+    <section id="contact" className="relative overflow-hidden bg-[#171410] text-[#f2ecdf]">
+      {/* Video backdrop */}
       <video
         autoPlay
         muted
@@ -37,39 +14,46 @@ export function CTASection() {
         preload="metadata"
         poster="/demos/cinematic_cut.jpg"
         src="/demos/cinematic_cut.mp4"
-        className="cta-zoom absolute inset-0 w-full h-full object-cover"
+        className="cta-zoom absolute inset-0 h-full w-full object-cover opacity-40"
       />
-      <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#171410] via-transparent to-[#171410]" />
+      <div className="film-grain" />
 
-      {/* Content */}
-      <div
-        ref={ref}
-        className={cn(
-          "relative z-10 mx-auto max-w-4xl px-6 py-24 md:py-32 text-center transition-all duration-1000",
-          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        )}
-      >
-        <h2 className="font-display font-medium uppercase leading-[1.02] tracking-[-0.005em] text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-balance">
-          Ready to elevate your content?
-        </h2>
-        <p className="mt-8 text-base md:text-lg text-white/70 max-w-xl mx-auto leading-relaxed">
-          Book a call to discuss your editing needs.
+      <div className="relative mx-auto max-w-[1600px] px-5 md:px-10 py-24 md:py-36 text-center">
+        <p className="font-mono text-xs uppercase tracking-[0.35em] text-[#ff4d00]">
+          ● No more boring listings
         </p>
-        <div className="mt-12">
+        <h2 className="mx-auto mt-6 font-display uppercase leading-[0.88] text-[17vw] md:text-[11rem]">
+          Let&apos;s make <br />
+          <span className="text-[#ff4d00]">the cut</span>
+        </h2>
+        <p className="mx-auto mt-6 max-w-md text-base md:text-lg text-[#f2ecdf]/70">
+          Book a call to discuss your editing needs —{" "}
+          <span className="font-accent italic text-[#f2ecdf]">usually replies within 2 hours.</span>
+        </p>
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="mailto:mostafakhaled369852@gmai.com"
-            className="shine inline-flex items-center justify-center rounded-[3px] bg-primary px-12 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-all duration-300 hover:shadow-gold-glow hover:scale-[1.04]"
+            href="/contact"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#ff4d00] px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#fff8ea] transition-all hover:scale-105 hover:-rotate-1"
           >
-            Book A Call
+            Book a call
+            <ArrowUpRight size={18} strokeWidth={2.5} className="transition-transform group-hover:rotate-45" />
+          </a>
+          <a href="/#packages" className="text-xs font-bold uppercase tracking-[0.25em] text-[#f2ecdf]/70 hover:text-[#ff4d00] transition-colors">
+            Or order directly →
           </a>
         </div>
-        <p className="mt-8 text-[11px] uppercase tracking-[0.3em] text-white/50">
-          Or order directly.{" "}
-          <a href="/#packages" className="text-primary hover:underline underline-offset-4">
-            Order Now
-          </a>
-        </p>
+      </div>
+
+      {/* Bottom ticker */}
+      <div className="relative overflow-hidden border-t border-[#f2ecdf]/15 bg-[#ff4d00] py-2.5 text-[#fff8ea]">
+        <div className="flex w-max animate-scroll-x-fast">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <span key={i} className="whitespace-nowrap px-6 font-display text-lg uppercase">
+              Ready when you are ✦ Let&apos;s cut ✦
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,24 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { Anton, Instrument_Serif, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { Loader } from "@/components/site/loader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Anton({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: "400",
+});
+
+const accent = Instrument_Serif({
+  variable: "--font-accent",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+});
+
+const sans = Space_Grotesk({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +44,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Mustafa Khaled" }],
   icons: {
-    icon: "/logo-mustafa.png",
+    icon: "/logo-mk.png",
+    apple: "/logo-mk.png",
   },
   openGraph: {
     title: "Mustafa Khaled · Cinematic Video Editing",
@@ -60,9 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
+        className={`${display.variable} ${accent.variable} ${sans.variable} ${geistMono.variable} antialiased`}
       >
         <SmoothScroll />
         <Loader />
