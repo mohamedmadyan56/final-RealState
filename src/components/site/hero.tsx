@@ -76,7 +76,7 @@ export function Hero() {
     <section id="home" className="relative overflow-hidden bg-[#f2ecdf]">
       <div className="film-grain" />
 
-      <div className="relative mx-auto max-w-[1600px] px-5 pt-28 md:px-10 md:pt-32">
+      <div className="relative mx-auto max-w-[1600px] px-5 pt-28 md:px-10 md:pt-[clamp(3.5rem,10.5vh,8rem)]">
         {/* Meta rail */}
         <div className={`flex items-center justify-between gap-4 border-b border-[#171410]/15 pb-4 ${META}`}>
           <span className="flex items-center gap-2.5 text-[#171410]">
@@ -88,9 +88,9 @@ export function Hero() {
         </div>
 
         {/* Headline + right rail */}
-        <div className="grid grid-cols-12 gap-x-6 pt-10 md:pt-14 lg:gap-x-10">
+        <div className="grid grid-cols-12 gap-x-6 pt-10 md:pt-[clamp(1.5rem,4.5vh,3.5rem)] lg:gap-x-10">
           <div className="relative col-span-12 lg:col-span-9">
-            <h1 className="font-display uppercase leading-[0.84] tracking-[-0.012em] text-[#171410] text-[22vw] lg:pb-6 lg:text-[clamp(3.5rem,16vw,16rem)]">
+            <h1 className="font-display uppercase leading-[0.84] tracking-[-0.012em] text-[#171410] text-[22vw] lg:pb-6 lg:text-[clamp(3.5rem,min(16vw,20vh),16rem)]">
               <span className="rise-in block" style={{ animationDelay: "0.08s" }}>
                 Your
               </span>
@@ -142,7 +142,7 @@ export function Hero() {
             className="rise-in col-span-12 mt-12 hidden lg:col-span-3 lg:mt-0 lg:block"
             style={{ animationDelay: "0.5s" }}
           >
-            <div className="ml-auto w-full max-w-[280px]">
+            <div className="ml-auto w-full max-w-[clamp(200px,26vh,280px)]">
               <div
                 className={`flex items-center justify-between border-b border-[#171410]/15 pb-2.5 ${META}`}
               >
@@ -161,7 +161,7 @@ export function Hero() {
         </div>
 
         {/* Sub + CTAs */}
-        <div className="mt-16 grid grid-cols-12 items-end gap-x-6 border-t border-[#171410]/15 pt-8 md:mt-20 lg:gap-x-10">
+        <div className="mt-16 grid grid-cols-12 items-end gap-x-6 border-t border-[#171410]/15 pt-8 md:mt-[clamp(3rem,7vh,5rem)] lg:gap-x-10">
           <div className="col-span-12 lg:col-span-5">
             <p className="max-w-[52ch] text-lg leading-[1.5] text-[#171410]/80 md:text-xl">
               Professional editing for real estate media companies and agents.{" "}
