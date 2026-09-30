@@ -47,15 +47,15 @@ export function About() {
                 </p>
               </div>
 
-              <div className="mt-8 grid max-w-xs grid-cols-3 divide-x-2 divide-[#171410] rounded-xl border-2 border-[#171410] bg-[#fff8ea] text-center">
+              <div className="mt-8 grid w-full max-w-xs grid-cols-3 divide-x-2 divide-[#171410] rounded-xl border-2 border-[#171410] bg-[#fff8ea] text-center">
                 {[
                   ["2", "yrs craft"],
                   ["5M+", "views"],
                   ["30+", "clients"],
                 ].map(([v, l]) => (
-                  <div key={l} className="p-4">
-                    <div className="font-display text-2xl md:text-3xl text-[#ff4d00]">{v}</div>
-                    <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6f6656]">{l}</div>
+                  <div key={l} className="min-w-0 p-3 sm:p-4">
+                    <div className="font-display text-xl sm:text-2xl md:text-3xl text-[#ff4d00]">{v}</div>
+                    <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#6f6656] sm:text-[10px] sm:tracking-[0.18em]">{l}</div>
                   </div>
                 ))}
               </div>

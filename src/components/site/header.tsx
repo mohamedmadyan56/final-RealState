@@ -37,8 +37,8 @@ export function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-[60] transition-all duration-500",
           scrolled
-            ? "bg-[#f2ecdf]/85 backdrop-blur-xl border-b-2 border-[#171410]"
-            : "bg-transparent border-b-2 border-transparent"
+            ? "border-b border-[#171410]/15 bg-[#f2ecdf]"
+            : "border-b border-transparent bg-transparent"
         )}
       >
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 md:px-10 py-4">
@@ -71,7 +71,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <a
               href="/contact"
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#ff4d00] px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] text-[#fff8ea] transition-transform duration-300 hover:scale-105 hover:-rotate-1"
+              className="hidden items-center gap-1.5 bg-[#ff4d00] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#fff8ea] transition-colors duration-300 hover:bg-[#171410] sm:inline-flex"
             >
               Book a call
               <ArrowUpRight size={15} strokeWidth={2.5} />
@@ -80,7 +80,7 @@ export function Header() {
             <button
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className="group flex items-center gap-2 rounded-full border-2 border-[#171410] bg-[#f2ecdf] px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-[#171410] hover:text-[#f2ecdf]"
+              className="group flex items-center gap-2 border border-[#171410] bg-[#f2ecdf] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:bg-[#171410] hover:text-[#f2ecdf]"
             >
               Menu
               <span className="flex flex-col gap-[4px]">
@@ -107,7 +107,7 @@ export function Header() {
           <button
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="rounded-full border-2 border-[#f2ecdf] px-6 py-2.5 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-[#ff4d00] hover:border-[#ff4d00]"
+            className="border border-[#f2ecdf] px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors hover:border-[#ff4d00] hover:bg-[#ff4d00]"
           >
             Close ✕
           </button>
@@ -121,12 +121,12 @@ export function Header() {
               onClick={() => setOpen(false)}
               style={{ transitionDelay: open ? `${i * 60}ms` : "0ms" }}
               className={cn(
-                "group flex items-baseline gap-4 border-b border-[#f2ecdf]/15 py-2 md:py-3 transition-all duration-500 hover:pl-4",
+                "group flex items-baseline gap-3 border-b border-[#f2ecdf]/15 py-2 transition-all duration-500 hover:pl-4 md:gap-4 md:py-3",
                 open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
             >
               <span className="font-mono text-sm text-[#ff4d00]">{l.num}</span>
-              <span className="font-display uppercase leading-none text-[13vw] sm:text-6xl md:text-7xl lg:text-8xl transition-colors group-hover:text-[#ff4d00]">
+              <span className="font-display uppercase leading-none text-[9.5vw] min-[360px]:text-[10.5vw] min-[420px]:text-[11.5vw] sm:text-6xl md:text-7xl lg:text-8xl transition-colors group-hover:text-[#ff4d00]">
                 {l.label}
               </span>
               <ArrowUpRight
@@ -140,8 +140,8 @@ export function Header() {
         <div className="relative mx-auto flex w-full max-w-[1600px] flex-col sm:flex-row gap-2 sm:items-center justify-between px-5 md:px-10 pb-8 text-[11px] uppercase tracking-[0.25em] text-[#f2ecdf]/60">
           <span>Cairo → Worldwide</span>
           <span className="text-[#ff4d00]">● Available for new projects</span>
-          <a href="mailto:mostafakhaled369852@gmai.com" className="hover:text-[#f2ecdf]">
-            mostafakhaled369852@gmai.com
+          <a href="mailto:mostafakhaled369852@gmail.com" className="hover:text-[#f2ecdf]">
+            mostafakhaled369852@gmail.com
           </a>
         </div>
       </div>

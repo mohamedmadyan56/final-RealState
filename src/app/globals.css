@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "lenis/dist/lenis.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -160,23 +161,23 @@
     text-wrap: balance;
   }
 
-  /* Outlined ghost type */
+  /* Outlined ghost type — stroke scales with the type so it reads the same at any size */
   .text-outline-ink {
     color: transparent;
-    -webkit-text-stroke: 2px #171410;
+    -webkit-text-stroke: clamp(1.1px, 0.012em, 3.5px) #171410;
   }
   .text-outline-paper {
     color: transparent;
-    -webkit-text-stroke: 2px #f2ecdf;
+    -webkit-text-stroke: clamp(1.1px, 0.012em, 3.5px) #f2ecdf;
   }
   .text-outline-blaze {
     color: transparent;
-    -webkit-text-stroke: 2px #ff4d00;
+    -webkit-text-stroke: clamp(1.1px, 0.012em, 3.5px) #ff4d00;
   }
-  @media (max-width: 640px) {
-    .text-outline-ink, .text-outline-paper, .text-outline-blaze {
-      -webkit-text-stroke-width: 1.2px;
-    }
+  /* Heavier cut for the hero's giant outlined word */
+  .text-outline-display {
+    color: transparent;
+    -webkit-text-stroke: 0.021em #171410;
   }
 
   /* Film grain */
@@ -293,13 +294,13 @@
 
 /* Rotating word */
 @keyframes rotatingWord {
-  0% { opacity: 0; transform: translateY(60%); }
-  12% { opacity: 1; transform: translateY(0); }
-  85% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-60%); }
+  0% { opacity: 0; transform: translateY(70%); }
+  14% { opacity: 1; transform: translateY(0); }
+  84% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-70%); }
 }
 .rotating-word {
-  animation: rotatingWord 2.2s ease forwards;
+  animation: rotatingWord 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
 }
 
@@ -376,4 +377,77 @@
 }
 .animate-fade-up {
   animation: fadeUp 0.8s ease-out forwards;
+}
+
+/* ==== Showreel player ==== */
+
+/* Lower third — enters like a real broadcast title card */
+@keyframes lowerThird {
+  0% { opacity: 0; transform: translate(-18px, 10px); }
+  100% { opacity: 1; transform: translate(0, 0); }
+}
+.lower-third {
+  animation: lowerThird 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Dip to black between cuts — the actual editing technique, not a glitchy fade */
+@keyframes dipBlack {
+  0% { opacity: 0; }
+  22% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.dip-black {
+  animation: dipBlack 0.5s ease-in-out both;
+}
+
+/* Chapter name wipes in from the left edge */
+@keyframes wipeIn {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+.wipe-in {
+  animation: wipeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Faint horizontal scanlines over the frame — reads as a monitor, not a website */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.09) 0px,
+    rgba(255, 255, 255, 0.09) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Reduced motion — kill decorative loops, keep everything visible */
+@media (prefers-reduced-motion: reduce) {
+  .rise-in,
+  .rotating-word,
+  .loader-word,
+  .loader-bar,
+  .animate-fade-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .animate-scroll-x,
+  .animate-scroll-x-fast,
+  .animate-spin-slow,
+  .animate-soft-pulse,
+  .cta-zoom,
+  .lower-third,
+  .wipe-in {
+    animation: none !important;
+    clip-path: none !important;
+  }
+  .dip-black {
+    animation: none !important;
+    opacity: 0 !important;
+  }
 }

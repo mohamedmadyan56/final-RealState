@@ -55,8 +55,8 @@ export function Footer() {
               Available for new projects
             </div>
             <div className="mt-6 space-y-1 text-sm text-[#f2ecdf]/70">
-              <a href="mailto:mostafakhaled369852@gmai.com" className="block hover:text-[#ff4d00] transition-colors">
-                mostafakhaled369852@gmai.com
+              <a href="mailto:mostafakhaled369852@gmail.com" className="block hover:text-[#ff4d00] transition-colors">
+                mostafakhaled369852@gmail.com
               </a>
               <a href="tel:+201096994582" className="block hover:text-[#ff4d00] transition-colors">
                 +20 109 699 4582

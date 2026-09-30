@@ -12,8 +12,8 @@ export function CTASection() {
         loop
         playsInline
         preload="metadata"
-        poster="/demos/cinematic_cut.jpg"
-        src="/demos/cinematic_cut.mp4"
+        poster="/work/clips/listing-update.jpg"
+        src="/work/clips/listing-update.mp4"
         className="cta-zoom absolute inset-0 h-full w-full object-cover opacity-40"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#171410] via-transparent to-[#171410]" />

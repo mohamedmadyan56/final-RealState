@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Pause, Play, Plus, Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,8 +19,8 @@ const DEMOS: Demo[] = [
   {
     name: "Viral Cut",
     price: "$279",
-    src: "/demos/viral_cut.mp4",
-    poster: "/demos/viral_cut.jpg",
+    src: "/work/clips/night-drive.mp4",
+    poster: "/work/clips/night-drive.jpg",
     points: ["15–75 sec runtime", "Fast, trend-driven pacing", "Reels · TikTok · Shorts", "Hook + captions included"],
     tag: "Most ordered",
     vertical: true,
@@ -29,8 +29,8 @@ const DEMOS: Demo[] = [
   {
     name: "Branding Cut",
     price: "$189",
-    src: "/demos/branding_cut.mp4",
-    poster: "/demos/branding_cut.jpg",
+    src: "/work/clips/market-insights.mp4",
+    poster: "/work/clips/market-insights.jpg",
     points: ["15–40 sec runtime", "Text-driven, structured", "Authority & reach", "Logo + brand colors"],
     tag: "For agents",
     vertical: true,
@@ -39,8 +39,8 @@ const DEMOS: Demo[] = [
   {
     name: "Groovy Cut",
     price: "$279",
-    src: "/demos/groovy_cut.mp4",
-    poster: "/demos/groovy_cut.jpg",
+    src: "/work/clips/lifestyle-reel.mp4",
+    poster: "/work/clips/lifestyle-reel.jpg",
     points: ["15–75 sec runtime", "Creative, rhythmic edit", "Standout social posts", "Music-synced cuts"],
     tag: "Stand out",
     vertical: true,
@@ -49,8 +49,8 @@ const DEMOS: Demo[] = [
   {
     name: "Cinematic Cut",
     price: "$279",
-    src: "/demos/cinematic_cut.mp4",
-    poster: "/demos/cinematic_cut.jpg",
+    src: "/work/clips/pool-resort.mp4",
+    poster: "/work/clips/pool-resort.jpg",
     points: ["20 sec – 2 min runtime", "Elegant, cinematic grade", "MLS & flagship listings", "Drone + interior flow"],
     tag: "Flagship",
     vertical: false,
@@ -59,8 +59,8 @@ const DEMOS: Demo[] = [
   {
     name: "Value Cut",
     price: "$149",
-    src: "/demos/value_cut.mp4",
-    poster: "/demos/value_cut.jpg",
+    src: "/work/clips/neighborhood-kitchen.mp4",
+    poster: "/work/clips/neighborhood-kitchen.jpg",
     points: ["Full walk-through", "Clean, ambient sound", "2-day delivery", "Every room covered"],
     tag: "Fast & clean",
     vertical: false,
@@ -211,6 +211,20 @@ function BigPreview({ demo, active }: { demo: Demo; active: boolean }) {
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(true);
 
+  // الـ IO في video-autoplay.tsx بيوقّف الفيديو لما يخرج من الشاشة،فلازم
+  // الـ UI يقرأ الحالة الحقيقية من الفيديو نفسه مش من state قد بتتقادم.
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const sync = () => setPlaying(!v.paused);
+    v.addEventListener("play", sync);
+    v.addEventListener("pause", sync);
+    return () => {
+      v.removeEventListener("play", sync);
+      v.removeEventListener("pause", sync);
+    };
+  }, [active]);
+
   const togglePlay = () => {
     const v = ref.current;
     if (!v) return;
@@ -273,8 +287,8 @@ function BigPreview({ demo, active }: { demo: Demo; active: boolean }) {
           }
         }}
         className={cn(
-          "absolute bottom-4 right-4 flex items-center gap-2 rounded-full px-4 py-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.15em] backdrop-blur-sm transition-colors",
-          muted ? "bg-[#ff4d00] text-[#fff8ea]" : "bg-black/60 text-white hover:bg-[#ff4d00]"
+          "absolute bottom-4 right-4 flex items-center gap-2 rounded-full px-4 py-2.5 font-mono text-[10px] font-bold uppercase tracking-[0.15em] transition-colors",
+          muted ? "bg-[#ff4d00] text-[#fff8ea]" : "bg-black/75 text-white hover:bg-[#ff4d00]"
         )}
       >
         {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}

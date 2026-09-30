@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const ROLES = ["Agent", "Media Company", "Developer", "Creator", "Other"];
 
 const INFO = [
-  { label: "Email", value: "mostafakhaled369852@gmai.com", href: "mailto:mostafakhaled369852@gmai.com" },
+  { label: "Email", value: "mostafakhaled369852@gmail.com", href: "mailto:mostafakhaled369852@gmail.com" },
   { label: "Phone / WhatsApp", value: "+20 109 699 4582", href: "https://wa.me/201096994582" },
   { label: "Based in", value: "Cairo, Egypt" },
   { label: "Working", value: "Worldwide · Remote" },
@@ -165,7 +165,7 @@ export default function ContactPage() {
               )}
               {status === "error" && (
                 <p className="mt-4 text-sm font-bold text-red-600">
-                  {errorMsg} — or reach me directly at mostafakhaled369852@gmai.com
+                  {errorMsg} — or reach me directly at mostafakhaled369852@gmail.com
                 </p>
               )}
             </div>

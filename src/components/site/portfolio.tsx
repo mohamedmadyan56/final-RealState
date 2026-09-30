@@ -14,52 +14,52 @@ type WorkItem = {
 
 const WORK: WorkItem[] = [
   {
-    title: "Sunset Villa — Beverly Hills",
-    category: "Cinematic Cut",
+    title: "Neighbourhood Aerial",
+    category: "Drone film",
     format: "Reel",
-    duration: "0:10",
-    src: "/work/work-1.mp4",
-    poster: "/work/work-1.jpg",
+    duration: "0:15",
+    src: "/work/clips/aerial-reveal.mp4",
+    poster: "/work/clips/aerial-reveal.jpg",
   },
   {
-    title: "Downtown Loft Tour",
+    title: "Backlit Modern Exterior",
+    category: "Exterior",
+    format: "Reel",
+    duration: "0:12",
+    src: "/work/clips/palm-modern.mp4",
+    poster: "/work/clips/palm-modern.jpg",
+  },
+  {
+    title: "Timber Entry Walk-through",
     category: "Walk-through",
     format: "Short",
-    duration: "0:10",
-    src: "/work/work-2.mp4",
-    poster: "/work/work-2.jpg",
+    duration: "0:09",
+    src: "/work/clips/timber-entry.mp4",
+    poster: "/work/clips/timber-entry.jpg",
   },
   {
-    title: "Penthouse Skyline",
-    category: "Luxury Listing",
-    format: "Reel",
-    duration: "0:10",
-    src: "/work/work-3.mp4",
-    poster: "/work/work-3.jpg",
-  },
-  {
-    title: "Beachfront Launch",
-    category: "Viral Cut",
+    title: "Whip-Pan Room Tour",
+    category: "Listing tour",
     format: "TikTok",
+    duration: "0:15",
+    src: "/work/clips/modern-walk.mp4",
+    poster: "/work/clips/modern-walk.jpg",
+  },
+  {
+    title: "Price Drop Announcement",
+    category: "Presenter cut",
+    format: "Short",
     duration: "0:12",
-    src: "/work/work-4.mp4",
-    poster: "/work/work-4.jpg",
+    src: "/work/clips/listing-update.mp4",
+    poster: "/work/clips/listing-update.jpg",
   },
   {
-    title: "Modern Farmhouse Promo",
-    category: "Brand Cut",
+    title: "Market Explainer",
+    category: "Presenter cut",
     format: "YouTube",
-    duration: "0:08",
-    src: "/work/work-5.mp4",
-    poster: "/work/work-5.jpg",
-  },
-  {
-    title: "Architect's Tour",
-    category: "MLS Cut",
-    format: "Reel",
-    duration: "0:10",
-    src: "/work/work-6.mp4",
-    poster: "/work/work-6.jpg",
+    duration: "0:16",
+    src: "/work/clips/market-insights.mp4",
+    poster: "/work/clips/market-insights.jpg",
   },
 ];
 
@@ -94,6 +94,18 @@ export function Portfolio() {
     window.addEventListener("resize", sync);
     return () => window.removeEventListener("resize", sync);
   }, [sync]);
+
+  // throttle بـ rAF — من غير كده كل scroll event بيعمل setState وبيعمل rerender
+  const syncRaf = useRef(0);
+  const onScroll = useCallback(() => {
+    if (syncRaf.current) return;
+    syncRaf.current = requestAnimationFrame(() => {
+      syncRaf.current = 0;
+      sync();
+    });
+  }, [sync]);
+
+  useEffect(() => () => cancelAnimationFrame(syncRaf.current), []);
 
   const go = (dir: 1 | -1) => {
     trackRef.current?.scrollBy({ left: dir * step(), behavior: "smooth" });
@@ -161,12 +173,12 @@ export function Portfolio() {
       {/* Horizontal strip — drag on desktop, swipe on mobile */}
       <div
         ref={trackRef}
-        onScroll={sync}
+        onScroll={onScroll}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerLeave={endDrag}
-        className="no-scrollbar mt-10 flex snap-x snap-mandatory cursor-grab gap-5 overflow-x-auto px-5 pb-4 active:cursor-grabbing md:px-10"
+        className="no-scrollbar mt-10 flex cursor-grab gap-5 overflow-x-auto px-5 pb-4 active:cursor-grabbing md:px-10"
       >
         {WORK.map((item, i) => (
           <WorkCard key={i} item={item} index={i} suppressClick={suppressClick} />
@@ -182,7 +194,7 @@ export function Portfolio() {
               e.preventDefault();
             }
           }}
-          className="group grid w-[78vw] shrink-0 snap-center place-items-center rounded-2xl border-2 border-dashed border-[#171410]/40 p-10 text-center transition-colors hover:border-[#ff4d00] hover:bg-[#171410] hover:text-[#f2ecdf] sm:w-[380px]"
+          className="group grid w-[78vw] shrink-0 place-items-center rounded-2xl border-2 border-dashed border-[#171410]/40 p-10 text-center transition-colors hover:border-[#ff4d00] hover:bg-[#171410] hover:text-[#f2ecdf] sm:w-[380px]"
         >
           <div>
             <p className="font-display text-4xl uppercase leading-[0.95] md:text-5xl">
@@ -214,6 +226,20 @@ function WorkCard({
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(true);
 
+  // مصدر الحقيقة هو حالة الفيديو نفسها — الـ IO في video-autoplay.tsx بيوقّف
+  // الكروت اللي خرجت من الشاشة، والـ state هنا لازم يتبعها.
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const sync = () => setPlaying(!v.paused);
+    v.addEventListener("play", sync);
+    v.addEventListener("pause", sync);
+    return () => {
+      v.removeEventListener("play", sync);
+      v.removeEventListener("pause", sync);
+    };
+  }, []);
+
   const toggle = () => {
     if (suppressClick.current) {
       suppressClick.current = false;
@@ -234,7 +260,7 @@ function WorkCard({
     <div
       data-card
       onClick={toggle}
-      className="group relative block aspect-[4/5] w-[78vw] shrink-0 snap-center cursor-pointer overflow-hidden rounded-2xl border-2 border-[#171410] select-none sm:w-[340px] md:w-[380px]"
+      className="group relative block aspect-[4/5] w-[78vw] shrink-0 cursor-pointer overflow-hidden rounded-2xl border-2 border-[#171410] select-none sm:w-[340px] md:w-[380px]"
       style={{ transform: `rotate(${index % 2 === 0 ? "-1" : "1"}deg)` }}
     >
       <video
@@ -255,7 +281,7 @@ function WorkCard({
         <span className="rounded-full bg-[#ff4d00] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#fff8ea]">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="rounded-full bg-black/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-white backdrop-blur">
+        <span className="rounded-full bg-black/75 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-white">
           {item.format} · {item.duration}
         </span>
       </div>

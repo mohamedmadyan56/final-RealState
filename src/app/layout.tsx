@@ -3,6 +3,7 @@ import { Anton, Instrument_Serif, Space_Grotesk, Geist_Mono } from "next/font/go
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { VideoAutoplay } from "@/components/site/video-autoplay";
 import { Loader } from "@/components/site/loader";
 
 const display = Anton({
@@ -74,6 +75,7 @@ export default function RootLayout({
         className={`${display.variable} ${accent.variable} ${sans.variable} ${geistMono.variable} antialiased`}
       >
         <SmoothScroll />
+        <VideoAutoplay />
         <Loader />
         {children}
         <Toaster />

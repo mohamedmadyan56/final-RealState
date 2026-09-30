@@ -79,17 +79,24 @@ export function Testimonials() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex gap-2">
+              <div className="flex items-center">
                 {TESTIMONIALS.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setActive(i)}
                     aria-label={`Testimonial ${i + 1}`}
-                    className={cn(
-                      "h-2.5 rounded-full transition-all duration-300",
-                      i === active ? "w-10 bg-[#ff4d00]" : "w-2.5 bg-[#171410]/20 hover:bg-[#171410]/40"
-                    )}
-                  />
+                    aria-current={i === active}
+                    className="group grid h-11 w-6 place-items-center"
+                  >
+                    <span
+                      className={cn(
+                        "block h-2.5 rounded-full transition-all duration-300",
+                        i === active
+                          ? "w-6 bg-[#ff4d00]"
+                          : "w-2.5 bg-[#171410]/20 group-hover:bg-[#171410]/40"
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
               <button onClick={() => go(-1)} aria-label="Previous" className="grid h-11 w-11 place-items-center rounded-full border-2 border-[#171410] transition-colors hover:bg-[#171410] hover:text-[#f2ecdf]">
